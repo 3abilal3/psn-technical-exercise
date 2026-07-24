@@ -1,0 +1,131 @@
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.video-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.video-table th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.video-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.video-table tr:last-child td {
+  border-bottom: none;
+}
+
+.video-table tbody tr {
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.video-table tbody tr:hover {
+  background: var(--blue-dim);
+}
+
+.video-table tbody tr.selected {
+  background: var(--blue-dim);
+  box-shadow: inset 3px 0 0 var(--blue);
+}
+
+.title-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.title-link:hover {
+  color: var(--blue);
+}
+
+.title-link svg {
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.channel-tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.video-table .num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.video-table .num.highlight {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.video-table .mono {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pill.long {
+  background: var(--yellow-dim);
+  color: #9a6b00;
+}
+
+.pill.short {
+  background: var(--blue-dim);
+  color: var(--blue);
+}
+
+.empty-state {
+  padding: 32px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.preview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  background: var(--blue-dim);
+  border: 1px solid rgba(43, 124, 211, 0.18);
+  border-radius: 6px;
+}
+
+.preview-btn:hover {
+  background: rgba(43, 124, 211, 0.2);
+  border-color: rgba(43, 124, 211, 0.35);
+}

@@ -1,0 +1,35 @@
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.panel-header {
+  margin-bottom: 16px;
+}
+
+.panel-header h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.panel-header p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.panel-tag {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 3px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--blue);
+  background: var(--blue-dim);
+  border-radius: 4px;
+}

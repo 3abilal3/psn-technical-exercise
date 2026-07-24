@@ -1,0 +1,11 @@
+post_id,video_id,account_name,published_at_date,video_url,video_type,title,text,video_length
+acc1_vid001,vid001,GCN,2026-06-01,https://www.youtube.com/watch?v=CCLz64GMNp4,Long Form,I Tried The HARDEST And The STEEPEST Climbs In The World In One Day,GCN tackles Scanuppia and Pozza San Glisente in one epic ride,1262000
+acc1_vid002,vid002,GCN,2026-06-05,https://www.youtube.com/watch?v=8ugzB6PDKKY,Short Form,Climbing Made Easy | GCN's Cycling Tips,Quick climbing tips from Matt and Dan,264000
+acc1_vid003,vid003,GCN,2026-06-10,https://www.youtube.com/watch?v=15wUwU3SVZ8,Long Form,Monster Gravel Bike Vs Gravel Bike: How Different Can They Be?,Alex and Si compare race and adventure gravel setups,848000
+acc2_vid004,vid004,GCN Tech,2026-06-12,https://www.youtube.com/watch?v=vNKrkrPsAGM,Long Form,Seismic Shifts - Shimano's Biggest Bike Innovations,From indexed shifting to Di2 electronic groupsets,1120000
+acc2_vid005,vid005,GCN Tech,2026-06-15,https://www.youtube.com/watch?v=IyhyrITHDgw,Short Form,How To Fit & Adjust A Cycle Helmet,Helmet safety and fit in under three minutes,142000
+acc3_vid006,vid006,EMBN,2026-06-18,https://www.youtube.com/watch?v=OH_zpKxuK2Y,Long Form,How Much Power Do You Really Need? Mid Weight Vs Full Power EMTBs,Comparing lightweight and full-power electric mountain bikes,936000
+acc3_vid007,vid007,EMBN,2026-06-22,https://www.youtube.com/watch?v=N7bk3WyTOmQ,Long Form,How To Jump An E MTB | E Mountain Bike Skills,Neil shares jump basics for e-mountain bikes,480000
+acc1_vid008,vid008,GCN,2026-06-25,https://www.youtube.com/watch?v=N9mFNcoymvo,Long Form,Does Jonas Vingegaard Have A Serious Rival At The Giro d'Italia?,GCN Racing News Show breaks down the Giro GC battle,854000
+acc2_vid009,vid009,GCN Tech,2026-06-28,https://www.youtube.com/watch?v=E3C5RzQrTvw,Long Form,What's The Fastest Tyre Pressure For A Road Bike?,Emma tests tyre pressures on rough roads,639000
+acc3_vid010,vid010,EMBN,2026-07-01,https://www.youtube.com/watch?v=lkE4L-3jBZg,Long Form,Riding An Ebike For The First Time!,EMBN takes first-time riders to UK trails in the Forest of Dean,1038000
