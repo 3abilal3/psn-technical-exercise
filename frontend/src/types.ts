@@ -10,20 +10,20 @@ export interface QueryDefinition {
 export const QUERIES: QueryDefinition[] = [
   {
     id: 'q1',
-    title: 'Total views per video',
-    subtitle: 'Summed from daily stats',
+    title: 'Views by video',
+    subtitle: 'Lifetime totals from daily stats',
     sqlLabel: 'GROUP BY video',
   },
   {
     id: 'q2',
-    title: 'Views by video type over time',
-    subtitle: 'Long Form vs Short Form by day',
+    title: 'Views by format',
+    subtitle: 'Long Form and Shorts, day by day',
     sqlLabel: 'GROUP BY date, type',
   },
   {
     id: 'q3',
-    title: 'Top 5 videos · last 28 days',
-    subtitle: 'Rolling 28-day view totals',
+    title: 'Top 5 · last 28 days',
+    subtitle: 'Highest view counts in the window',
     sqlLabel: 'WHERE date >= -28d',
   },
 ];
@@ -41,10 +41,11 @@ export interface Post {
   account_name: string;
   published_at_date: string;
   video_url: string;
-  video_type: 'Long Form' | 'Short Form';
+  video_type: 'Long Form' | 'Shorts';
   title: string;
   text: string;
   video_length: number;
+  thumbnail_url: string;
 }
 
 export interface PostStat {
@@ -74,7 +75,7 @@ export interface VideoSummary {
 export interface ViewsByTypeOverTime {
   stat_date: string;
   'Long Form': number;
-  'Short Form': number;
+  Shorts: number;
 }
 
 export interface ViewsPerVideo {
@@ -108,10 +109,11 @@ export interface KpiMetrics {
   totalLikes: number;
   totalWatchMinutes: number;
   videoCount: number;
+  channelCount: number;
   avgViewsPerVideo: number;
 }
 
 export type SortField = 'total_views' | 'total_likes' | 'title' | 'published_at_date';
 export type SortDirection = 'asc' | 'desc';
 
-export const REFERENCE_DATE = '2026-07-02';
+export const REFERENCE_DATE = '2026-01-25';

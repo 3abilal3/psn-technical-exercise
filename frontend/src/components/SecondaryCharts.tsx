@@ -32,7 +32,7 @@ interface SecondaryChartsProps {
   engagementData: EngagementPoint[];
 }
 
-const CHANNEL_COLORS = ['#2b7cd3', '#2d9d6e', '#e8a317', '#7eb8e8'];
+const CHANNEL_COLORS = ['#2563a8', '#1f8f5f', '#e8344a', '#f4b942'];
 const TICK = { fill: '#5a7189', fontSize: 10 };
 
 export function SecondaryCharts({ typeSplit, channelData, engagementData }: SecondaryChartsProps) {
@@ -42,7 +42,7 @@ export function SecondaryCharts({ typeSplit, channelData, engagementData }: Seco
     <div className="side-charts">
       <section className="panel mini-chart">
         <div className="panel-header">
-          <h2>Long vs Short Form</h2>
+          <h2>Long Form vs Shorts</h2>
           <p>View share across formats</p>
         </div>
         <ResponsiveContainer width="100%" height={200}>
@@ -83,7 +83,7 @@ export function SecondaryCharts({ typeSplit, channelData, engagementData }: Seco
       <section className="panel mini-chart">
         <div className="panel-header">
           <h2>Views by channel</h2>
-          <p>GCN · GCN Tech · EMBN</p>
+          <p>Views by channel in the filtered range</p>
         </div>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={channelData}>
@@ -102,8 +102,8 @@ export function SecondaryCharts({ typeSplit, channelData, engagementData }: Seco
 
       <section className="panel mini-chart span-2">
         <div className="panel-header">
-          <h2>Engagement pulse</h2>
-          <p>Daily likes, comments, and shares</p>
+          <h2>Engagement</h2>
+          <p>Likes, comments and shares per day</p>
         </div>
         <ResponsiveContainer width="100%" height={220}>
           <LineChart data={engagementData.map((d) => ({ ...d, label: d.stat_date.slice(5) }))}>

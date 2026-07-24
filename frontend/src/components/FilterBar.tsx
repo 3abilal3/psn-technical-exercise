@@ -1,16 +1,18 @@
 import type { FilterState, SortDirection, SortField } from '../types';
-import { Filter, RotateCcw } from 'lucide-react';
+import { Filter, RotateCcw, Search } from 'lucide-react';
 import './FilterBar.css';
 
 interface FilterBarProps {
   accounts: string[];
   videoTypes: string[];
   filters: FilterState;
+  searchQuery: string;
   sortField: SortField;
   sortDirection: SortDirection;
   dateMin: string;
   dateMax: string;
   onFiltersChange: (filters: FilterState) => void;
+  onSearchChange: (value: string) => void;
   onSortFieldChange: (value: SortField) => void;
   onSortDirectionChange: (value: SortDirection) => void;
   onReset: () => void;
@@ -20,11 +22,13 @@ export function FilterBar({
   accounts,
   videoTypes,
   filters,
+  searchQuery,
   sortField,
   sortDirection,
   dateMin,
   dateMax,
   onFiltersChange,
+  onSearchChange,
   onSortFieldChange,
   onSortDirectionChange,
   onReset,
@@ -37,12 +41,21 @@ export function FilterBar({
     <div className="filter-bar panel">
       <div className="filter-bar-title">
         <Filter size={16} />
-        <span>Filters</span>
+        <span>Refine</span>
         <button type="button" className="reset-btn" onClick={onReset}>
           <RotateCcw size={14} />
           Reset
         </button>
       </div>
+      <label className="search-field">
+        <Search size={16} />
+        <input
+          type="search"
+          placeholder="Search titles…"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </label>
       <div className="filter-grid">
         <label>
           Channel

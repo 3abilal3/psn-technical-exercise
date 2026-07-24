@@ -85,11 +85,11 @@ export function queryViewsByTypeOverTime(posts: Post[], poststats: PostStat[]): 
     const row = byDate.get(stat.stat_date) ?? {
       stat_date: stat.stat_date,
       'Long Form': 0,
-      'Short Form': 0,
+      Shorts: 0,
     };
 
     if (videoType === 'Long Form') row['Long Form'] += stat.views;
-    else row['Short Form'] += stat.views;
+    else row.Shorts += stat.views;
 
     byDate.set(stat.stat_date, row);
   }
@@ -101,7 +101,13 @@ export function queryTop5Last28Days(
   poststats: PostStat[],
   summaries: VideoSummary[],
 ): VideoSummary[] {
-  const cutoff = subtractDays(REFERENCE_DATE, 28);
+  if (poststats.length === 0) return [];
+
+  const maxDate = poststats.reduce(
+    (max, stat) => (stat.stat_date > max ? stat.stat_date : max),
+    poststats[0].stat_date,
+  );
+  const cutoff = subtractDays(maxDate, 28);
   const totals = new Map<string, number>();
 
   for (const stat of poststats) {
@@ -167,7 +173,7 @@ export function buildTypeSplit(posts: Post[], poststats: PostStat[]): TypeSplit[
 
   return [
     { name: 'Long Form', value: longForm, fill: '#e8a317' },
-    { name: 'Short Form', value: shortForm, fill: '#2b7cd3' },
+    { name: 'Shorts', value: shortForm, fill: '#2b7cd3' },
   ];
 }
 
@@ -180,6 +186,7 @@ export function buildKpis(posts: Post[], poststats: PostStat[]): KpiMetrics {
     totalLikes: summaries.reduce((sum, s) => sum + s.total_likes, 0),
     totalWatchMinutes: Math.round(summaries.reduce((sum, s) => sum + s.total_minutes_watched, 0)),
     videoCount: summaries.length,
+    channelCount: new Set(summaries.map((s) => s.account_name)).size,
     avgViewsPerVideo: summaries.length ? Math.round(totalViews / summaries.length) : 0,
   };
 }

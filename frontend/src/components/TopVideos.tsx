@@ -9,15 +9,15 @@ interface TopVideosProps {
   onSelect?: (video: VideoSummary) => void;
 }
 
-const MEDAL = ['🥇', '🥈', '🥉', '4', '5'];
+const MEDAL = ['1', '2', '3', '4', '5'];
 
 export function TopVideos({ videos, compact, onSelect }: TopVideosProps) {
   return (
     <section className={`panel top-videos ${compact ? 'compact' : ''}`}>
       <div className="panel-header">
-        <span className="panel-tag">Query 3</span>
-        <h2><Trophy size={16} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Top performers</h2>
-        <p>Last 28 days</p>
+        <span className="panel-tag">Q3</span>
+        <h2><Trophy size={16} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Top 5 this month</h2>
+        <p>Based on the last 28 days of stats</p>
       </div>
       <ol className="top-list">
         {videos.map((video, index) => (

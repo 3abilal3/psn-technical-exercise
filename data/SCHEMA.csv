@@ -1,0 +1,17 @@
+table name,field name,type,description
+posts,post_id,STRING,unique id for the post created by concatenating account_id and video_id
+posts,video_id,STRING,the youtube assigned ID for the video
+posts,account_name,STRING,the name of the account the video was published to
+posts,published_at_date,DATE,date when the video was originally posted
+posts,video_url,STRING,URL to the video
+posts,video_type,STRING,likely to be either 'Long Form' or 'Short Form'
+posts,title,STRING,title of the post
+posts,text,STRING,description text on the video
+posts,video_length,INTEGER,length of the video in milliseconds
+posts,thumbnail_url,STRING,url to the thumbnail of the video
+poststats,video_id,STRING,unique ID for the video
+poststats,likes,INTEGER,the number of likes received on the video that day
+poststats,comments,INTEGER,the number of comments received on the video that day
+poststats,shares,INTEGER,the number of shares on the video that day
+poststats,views,INTEGER,the views of the video that day
+poststats,estimated_minutes_watched,FLOAT,estimated minutes watched of the video that day

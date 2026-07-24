@@ -1,15 +1,13 @@
-# Cycling Content Explorer
+# PSN Content Performance
 
 **Candidate:** Ahmed Bilal  
 **Exercise:** Play Sports Network — Junior Full Stack Developer Technical Exercise
 
-A small dashboard for exploring cycling video performance across GCN, GCN Tech, and EMBN.
+A React dashboard for exploring YouTube performance across PSN channels. It loads the official `posts.csv` and `poststats.csv` dataset (2,326 videos, 12 channels, Jul 2025 – Jan 2026).
 
 ---
 
-## How to run the project
-
-### Frontend
+## How to run
 
 ```bash
 cd frontend
@@ -17,11 +15,15 @@ npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal (usually `http://localhost:5173`).
+Open the URL from the terminal (usually `http://localhost:5173`).
+
+To check the CSV files:
+
+```bash
+node scripts/validate-data.mjs
+```
 
 ### SQL (optional)
-
-The queries in `queries.sql` can be run against the CSV data using SQLite:
 
 ```bash
 sqlite3 content.db
@@ -31,48 +33,50 @@ sqlite3 content.db
 .read queries.sql
 ```
 
-**Project layout**
+Note: `poststats.csv` uses `data_date` (DD/MM/YYYY) and `watchtime`. The SQL handles comma-formatted numbers with `REPLACE`.
+
+**Layout**
 
 ```
-queries.sql          # 3 SQL queries
-data/                # posts.csv, poststats.csv
-frontend/            # React app (reads CSV from frontend/public/)
-AI_REFLECTION.md     # AI tooling reflection
+queries.sql
+data/                 posts.csv, poststats.csv, SCHEMA.csv
+frontend/             React app (CSVs copied to frontend/public/)
+scripts/              validate-data.mjs
+AI_REFLECTION.md
 ```
 
 ---
 
 ## What I built
 
-### 1. SQL (`queries.sql`)
+### SQL
 
 Three queries joining `posts` and `poststats` on `video_id`:
 
-1. **Total views per video** — aggregated views, likes, and watch time per video
-2. **Views by video type over time** — daily Long Form vs Short Form totals
-3. **Top 5 videos in the last 28 days** — ranked by views in a rolling 28-day window
+1. Total views (and likes / watch time) per video  
+2. Daily views split by Long Form vs Shorts  
+3. Top 5 videos by views in the last 28 days (reference date: 2026-01-25)
 
-**Assumption:** I added a `stat_date` column to `poststats.csv` so queries 2 and 3 can group and filter by day. Sample metrics are synthetic; YouTube URLs in `posts.csv` link to real public videos.
+### Frontend
 
-### 2. Frontend (React + TypeScript + Vite)
+React, TypeScript, Vite, and Recharts. The JS in `frontend/src/data/processData.ts` mirrors the SQL logic.
 
-An interactive dashboard that loads the CSV data and lets a content editor explore it without writing SQL:
+- **Reports panel** — switch the main chart between Q1, Q2, and Q3  
+- **Filters** — channel, format, date range, sort  
+- **Search** — filter the video table by title  
+- **KPI row** — videos, views, likes, channels, average views  
+- **Charts** — bar/area charts, channel breakdown, engagement trend  
+- **Video table** — 25 rows per page with pagination (full dataset stays in memory; only one page is rendered)  
+- **Preview player** — YouTube embed from URLs in `posts.csv`
 
-- **Query switcher (Q1 / Q2 / Q3)** — main chart updates to match each SQL question
-- **Filters** — channel, video type, date range, and sort (KPIs and charts update together)
-- **KPI summary** — total views, likes, watch time, video count, average views
-- **Charts** — views per video, format trend over time, top 5, channel breakdown, engagement over time
-- **Table** — full video list with a Preview button
-- **YouTube preview** — thumbnail and inline player for real GCN / EMBN videos
+The CSV loader normalises `data_date` to ISO dates and strips commas from numeric fields before the app uses the data.
 
-The aggregation logic in `frontend/src/data/processData.ts` mirrors the SQL queries in JavaScript.
+### AI reflection
 
-### 3. AI reflection
-
-See `AI_REFLECTION.md` for how AI tools were used and what was checked manually.
+See `AI_REFLECTION.md`.
 
 ---
 
-## One thing I would improve if I had more time
+## One improvement with more time
 
-**Connect the dashboard to a live data source** (for example BigQuery or an internal API) instead of static CSV files. That would give editors up-to-date numbers, remove the need to sync `data/` and `frontend/public/`, and better reflect how the Data & Insight team would work in production.
+Hook the dashboard up to a live source (BigQuery or an internal API) instead of static CSVs, so editors always see current numbers without copying files into `frontend/public/`.

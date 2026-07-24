@@ -103,7 +103,7 @@ export function DynamicQueryChart({
               <Tooltip {...CHART_TOOLTIP} formatter={(v: number) => v.toLocaleString('en-GB')} />
               <Legend />
               <Area type="monotone" dataKey="Long Form" stroke="#e8a317" fill="url(#longGrad)" strokeWidth={2} />
-              <Area type="monotone" dataKey="Short Form" stroke="#2b7cd3" fill="url(#shortGrad)" strokeWidth={2} />
+              <Area type="monotone" dataKey="Shorts" stroke="#2b7cd3" fill="url(#shortGrad)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         )}

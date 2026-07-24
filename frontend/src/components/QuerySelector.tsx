@@ -14,8 +14,8 @@ export function QuerySelector({ queries, activeQuery, onChange }: QuerySelectorP
       <div className="query-selector-head">
         <Database size={18} className="query-icon" />
         <div>
-          <h2>Queries</h2>
-          <p>Switch chart by SQL question</p>
+          <h2>Reports</h2>
+          <p>Matches the three SQL questions</p>
         </div>
       </div>
       <div className="query-list">

@@ -12,9 +12,10 @@
 
 .panel-header h2 {
   margin: 0 0 4px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .panel-header p {
@@ -29,7 +30,9 @@
   padding: 3px 8px;
   font-family: var(--mono);
   font-size: 10px;
-  color: var(--blue);
-  background: var(--blue-dim);
-  border-radius: 4px;
+  font-weight: 500;
+  color: var(--navy);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
 }

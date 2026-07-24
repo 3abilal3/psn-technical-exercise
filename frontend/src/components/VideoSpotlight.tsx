@@ -35,9 +35,9 @@ export function VideoSpotlight({
   return (
     <section id="video-spotlight" className="panel video-spotlight">
       <div className="panel-header">
-        <span className="panel-tag">YouTube</span>
-        <h2>Watch &amp; analyse</h2>
-        <p>Select a video, then press play</p>
+        <span className="panel-tag">Preview</span>
+        <h2>Video player</h2>
+        <p>Top performers from the current sort order</p>
       </div>
 
       <div className="spotlight-layout">
@@ -78,7 +78,7 @@ export function VideoSpotlight({
                     <span className="poster-play">
                       <Play size={28} fill="currentColor" />
                     </span>
-                    <span className="poster-label">Tap to play</span>
+                    <span className="poster-label">Play</span>
                   </button>
                 )}
               </div>
@@ -98,7 +98,7 @@ export function VideoSpotlight({
           ) : (
             <div className="player-placeholder">
               <Play size={48} />
-              <p>Pick a video below</p>
+              <p>Choose a video from the row on the right</p>
             </div>
           )}
         </div>

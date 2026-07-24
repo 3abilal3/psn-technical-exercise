@@ -50,9 +50,9 @@
 }
 
 .query-card.active {
-  border-color: var(--blue);
-  background: var(--blue-dim);
-  box-shadow: 0 0 0 1px rgba(43, 124, 211, 0.15);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 1px rgba(232, 52, 74, 0.12);
 }
 
 .query-num {
@@ -71,9 +71,9 @@
 }
 
 .query-card.active .query-num {
-  background: var(--blue);
+  background: var(--accent);
   color: white;
-  border-color: var(--blue);
+  border-color: var(--accent);
 }
 
 .query-copy {

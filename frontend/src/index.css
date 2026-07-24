@@ -1,27 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg: #eef4fa;
-  --bg-soft: #e3edf7;
+  --bg: #f4f6f8;
+  --bg-soft: #eef1f5;
   --surface: #ffffff;
-  --surface-hover: #f8fbff;
-  --text: #1a2b3c;
-  --muted: #5a7189;
-  --border: rgba(26, 43, 60, 0.1);
-  --blue: #2b7cd3;
-  --blue-dim: rgba(43, 124, 211, 0.1);
-  --yellow: #e8a317;
-  --yellow-dim: rgba(232, 163, 23, 0.12);
-  --green: #2d9d6e;
-  --green-dim: rgba(45, 157, 110, 0.12);
-  --sky: #7eb8e8;
-  --red: #d64545;
-  --font: 'DM Sans', system-ui, sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-  --radius: 14px;
-  --shadow: 0 4px 24px rgba(26, 43, 60, 0.08);
-  --chart-grid: rgba(26, 43, 60, 0.08);
-  --chart-tick: #5a7189;
+  --surface-hover: #fafbfc;
+  --text: #12263a;
+  --muted: #5c6b7a;
+  --border: rgba(18, 38, 58, 0.1);
+  --navy: #12263a;
+  --navy-soft: #1a334d;
+  --accent: #e8344a;
+  --accent-dim: rgba(232, 52, 74, 0.1);
+  --blue: #2563a8;
+  --blue-dim: rgba(37, 99, 168, 0.1);
+  --yellow: #f4b942;
+  --yellow-dim: rgba(244, 185, 66, 0.14);
+  --green: #1f8f5f;
+  --green-dim: rgba(31, 143, 95, 0.12);
+  --font: 'Manrope', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(18, 38, 58, 0.06), 0 8px 24px rgba(18, 38, 58, 0.06);
+  --chart-grid: rgba(18, 38, 58, 0.08);
+  --chart-tick: #5c6b7a;
 }
 
 * {
@@ -37,21 +39,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 50% at 0% 0%, rgba(126, 184, 232, 0.25), transparent),
-    radial-gradient(ellipse 50% 40% at 100% 0%, rgba(232, 163, 23, 0.12), transparent),
-    linear-gradient(180deg, #f5f9fd 0%, var(--bg) 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
 #root {
   position: relative;
-  z-index: 1;
+  min-height: 100vh;
 }
 
 a {
@@ -74,6 +64,6 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(26, 43, 60, 0.15);
+  background: rgba(18, 38, 58, 0.18);
   border-radius: 4px;
 }

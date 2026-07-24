@@ -33,6 +33,7 @@ import type {
   VideoSummary,
 } from './types';
 import { QUERIES } from './types';
+import { formatDateRange } from './utils/format';
 import './components/shared.css';
 import './App.css';
 
@@ -79,6 +80,7 @@ export default function App() {
   });
   const [sortField, setSortField] = useState<SortField>('total_views');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedVideo, setSelectedVideo] = useState<VideoSummary | null>(null);
   const [playToken, setPlayToken] = useState(0);
   const didInitSelection = useRef(false);
@@ -130,6 +132,12 @@ export default function App() {
     [liveData.summaries, sortField, sortDirection],
   );
 
+  const visibleTableRows = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return tableRows;
+    return tableRows.filter((row) => row.title.toLowerCase().includes(query));
+  }, [tableRows, searchQuery]);
+
   const spotlightVideos = useMemo(() => {
     const base = tableRows.slice(0, 6);
     if (!selectedVideo) return base;
@@ -179,6 +187,7 @@ export default function App() {
 
   const handleReset = () => {
     setFilters(DEFAULT_FILTERS(dateMin, dateMax));
+    setSearchQuery('');
     setSortField('total_views');
     setSortDirection('desc');
   };
@@ -186,8 +195,9 @@ export default function App() {
   if (loading) {
     return (
       <div className="loading-screen">
+        <div className="loading-brand">PSN Content Performance</div>
         <div className="loader-wheel" />
-        <p>Loading data…</p>
+        <p>Reading posts and daily stats…</p>
       </div>
     );
   }
@@ -203,8 +213,9 @@ export default function App() {
   return (
     <div className="app-shell">
       <Header
-        dateRange={`${filters.dateFrom} → ${filters.dateTo}`}
-        videoCount={liveData.summaries.length}
+        dateRange={formatDateRange(filters.dateFrom, filters.dateTo)}
+        filteredCount={liveData.summaries.length}
+        datasetTotal={posts.length}
       />
 
       <div className="dashboard-grid">
@@ -212,17 +223,19 @@ export default function App() {
           accounts={getAccounts(posts)}
           videoTypes={getVideoTypes(posts)}
           filters={filters}
+          searchQuery={searchQuery}
           sortField={sortField}
           sortDirection={sortDirection}
           dateMin={dateMin}
           dateMax={dateMax}
           onFiltersChange={setFilters}
+          onSearchChange={setSearchQuery}
           onSortFieldChange={setSortField}
           onSortDirectionChange={setSortDirection}
           onReset={handleReset}
         />
 
-        <KpiStrip metrics={liveData.kpis} />
+        <KpiStrip metrics={liveData.kpis} datasetVideoCount={posts.length} />
 
         <VideoSpotlight
           selected={selectedVideo}
@@ -259,12 +272,13 @@ export default function App() {
 
         <section className="panel table-section">
           <div className="panel-header">
-            <span className="panel-tag">{tableRows.length} videos</span>
-            <h2>Video catalogue</h2>
-            <p>All rows matching current filters</p>
+            <span className="panel-tag">{posts.length.toLocaleString('en-GB')} in dataset</span>
+            <h2>All videos</h2>
+            <p>25 rows per page — use search and filters to narrow the list.</p>
           </div>
           <VideoTable
-            rows={tableRows}
+            rows={visibleTableRows}
+            datasetTotal={posts.length}
             selectedId={selectedVideo?.video_id}
             onSelect={(video) => selectVideo(video)}
             onPreview={(video) => selectVideo(video, true)}

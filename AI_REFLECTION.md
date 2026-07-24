@@ -2,32 +2,21 @@
 
 ## Did you use any AI tools?
 
-Yes. I used Cursor while completing this exercise.
+Yes — Cursor, mainly while building the frontend and tidying the SQL.
 
 ## What did you use them for?
 
-- Scaffolding the React + Vite project structure
-- Drafting the initial SQL query patterns (JOIN, GROUP BY, date filtering)
-- Creating component boilerplate for the table, chart, and filters
-- Structuring the README and project folder layout
-- Quick checks on TypeScript types and Recharts usage
+- Initial Vite + React setup and component structure
+- First pass at the SQL joins and groupings
+- README layout and some TypeScript/Recharts syntax checks
 
 ## Did they speed up or change how you worked?
 
-Yes. AI tools sped up repetitive setup and let me focus more time on:
+They helped with boilerplate so I could spend more time on the data model, filter behaviour, and whether the UI made sense for a content editor. I still stepped through the SQL and CSV parsing myself rather than trusting the output blindly.
 
-- making the UI understandable for a non-technical content editor
-- checking that the frontend logic matched the SQL assumptions
-- choosing sensible defaults (sort by views, clear labels, top 5 section)
+## What I checked manually
 
-They changed my workflow by acting like a pair programmer for boilerplate, while I still reviewed the SQL, data model, and UI behaviour manually.
-
-## What I verified myself
-
-- Join logic between `posts` and `poststats`
-- Aggregation for total views and 28-day top videos
-- Filter and sort behaviour in the React app
-- That labels and layout would make sense to a content editor
-
-
-
+- Join between `posts` and `poststats`
+- Totals and the 28-day top-five logic
+- Date parsing (`data_date` is DD/MM/YYYY in the official files)
+- Filters, search, pagination, and the preview player with real YouTube URLs
