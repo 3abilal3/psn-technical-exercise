@@ -1,0 +1,44 @@
+.filter-status {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.filter-status strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.filter-status p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.filter-status.tone-warn {
+  background: rgba(232, 52, 74, 0.08);
+  border-color: rgba(232, 52, 74, 0.22);
+}
+
+.filter-status.tone-warn strong {
+  color: var(--accent);
+}
+
+.filter-status.tone-warn p {
+  color: var(--text);
+}
+
+.filter-status.tone-info {
+  background: var(--blue-dim);
+  border-color: rgba(37, 99, 168, 0.2);
+}
+
+.filter-status.tone-info strong {
+  color: var(--blue);
+}
+
+.filter-status.tone-info p {
+  color: var(--text);
+}

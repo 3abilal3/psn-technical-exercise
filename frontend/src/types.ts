@@ -117,3 +117,57 @@ export type SortField = 'total_views' | 'total_likes' | 'title' | 'published_at_
 export type SortDirection = 'asc' | 'desc';
 
 export const REFERENCE_DATE = '2026-01-25';
+
+export interface EditorInsight {
+  id: 'channel' | 'format' | 'highlight';
+  tone: 'blue' | 'yellow' | 'green' | 'red';
+  title: string;
+  detail: string;
+}
+
+export interface EditorRecommendation {
+  id: string;
+  priority: 'high' | 'medium';
+  title: string;
+  detail: string;
+}
+
+export interface WatchListItem {
+  rank: number;
+  title: string;
+  channel: string;
+  views: number;
+  reason: string;
+}
+
+export interface MomentumInsight {
+  direction: 'up' | 'down' | 'flat';
+  percent: number;
+  label: string;
+}
+
+export interface EditorReport {
+  headline: string;
+  summary: string[];
+  recommendations: EditorRecommendation[];
+  watchList: WatchListItem[];
+  momentum: MomentumInsight | null;
+}
+
+export interface AssistantContext {
+  filters: FilterState;
+  searchQuery: string;
+  filterHint: string | null;
+  kpis: KpiMetrics;
+  channelData: ChannelBreakdown[];
+  typeSplit: TypeSplit[];
+  top28: VideoSummary[];
+  summaries: VideoSummary[];
+  accounts: string[];
+  datasetTotal: number;
+  viewsTrend: ViewsByTypeOverTime[];
+  baseline: {
+    typeSplit: TypeSplit[];
+    channelData: ChannelBreakdown[];
+  };
+}

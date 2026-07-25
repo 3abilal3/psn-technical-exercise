@@ -37,11 +37,13 @@ body {
   background: var(--bg);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 #root {
   position: relative;
   min-height: 100vh;
+  overflow-x: clip;
 }
 
 a {

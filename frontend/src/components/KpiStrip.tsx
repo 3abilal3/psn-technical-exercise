@@ -5,15 +5,14 @@ import './KpiStrip.css';
 
 interface KpiStripProps {
   metrics: KpiMetrics;
-  datasetVideoCount: number;
 }
 
 const cards = [
   {
     key: 'videos',
-    label: 'Total videos',
+    label: 'Videos in view',
     icon: Film,
-    format: (_: KpiMetrics, datasetVideoCount: number) => datasetVideoCount.toLocaleString('en-GB'),
+    format: (m: KpiMetrics) => m.videoCount.toLocaleString('en-GB'),
   },
   {
     key: 'totalViews',
@@ -41,7 +40,7 @@ const cards = [
   },
 ] as const;
 
-export function KpiStrip({ metrics, datasetVideoCount }: KpiStripProps) {
+export function KpiStrip({ metrics }: KpiStripProps) {
   return (
     <div className="kpi-row">
       {cards.map(({ key, label, icon: Icon, format }) => (
@@ -51,7 +50,7 @@ export function KpiStrip({ metrics, datasetVideoCount }: KpiStripProps) {
           </div>
           <div>
             <span className="kpi-label">{label}</span>
-            <strong className="kpi-value">{format(metrics, datasetVideoCount)}</strong>
+            <strong className="kpi-value">{format(metrics)}</strong>
           </div>
         </div>
       ))}

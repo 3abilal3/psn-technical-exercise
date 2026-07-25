@@ -17,8 +17,10 @@
 }
 
 .table-wrap {
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
   max-height: 620px;
+  max-width: 100%;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--bg-soft);

@@ -1,9 +1,13 @@
 .dynamic-chart {
   min-height: 440px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .chart-animate {
   animation: chartIn 0.35s ease-out;
+  min-width: 0;
+  width: 100%;
 }
 
 @keyframes chartIn {

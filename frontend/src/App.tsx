@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { EditorAssistant } from './components/EditorAssistant';
+import { FilterStatus } from './components/FilterStatus';
+import { InsightStrip } from './components/InsightStrip';
 import { DynamicQueryChart } from './components/DynamicQueryChart';
 import { FilterBar } from './components/FilterBar';
 import { Header } from './components/Header';
@@ -9,6 +12,7 @@ import { TopVideos } from './components/TopVideos';
 import { VideoSpotlight } from './components/VideoSpotlight';
 import { VideoTable } from './components/VideoTable';
 import { loadPosts, loadPoststats } from './data/csvLoader';
+import { buildEditorInsights } from './data/editorInsights';
 import {
   applyFilters,
   buildChannelBreakdown,
@@ -25,6 +29,7 @@ import {
 } from './data/processData';
 import type {
   FilterState,
+  AssistantContext,
   Post,
   PostStat,
   QueryId,
@@ -34,6 +39,7 @@ import type {
 } from './types';
 import { QUERIES } from './types';
 import { formatDateRange } from './utils/format';
+import { buildFilterHint, breakdownFromSummaries, filterBySearch, kpisFromSummaries } from './utils/search';
 import './components/shared.css';
 import './App.css';
 
@@ -111,6 +117,25 @@ export default function App() {
     [posts, poststats, filters],
   );
 
+  const baselineFiltered = useMemo(
+    () =>
+      applyFilters(posts, poststats, {
+        account: 'all',
+        videoType: 'all',
+        dateFrom: filters.dateFrom,
+        dateTo: filters.dateTo,
+      }),
+    [posts, poststats, filters.dateFrom, filters.dateTo],
+  );
+
+  const baseline = useMemo(
+    () => ({
+      typeSplit: buildTypeSplit(baselineFiltered.posts, baselineFiltered.poststats),
+      channelData: buildChannelBreakdown(baselineFiltered.posts, baselineFiltered.poststats),
+    }),
+    [baselineFiltered],
+  );
+
   const liveData = useMemo(() => {
     const { posts: fp, poststats: fps } = filtered;
     const summaries = buildVideoSummaries(fp, fps);
@@ -132,21 +157,59 @@ export default function App() {
     [liveData.summaries, sortField, sortDirection],
   );
 
-  const visibleTableRows = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return tableRows;
-    return tableRows.filter((row) => row.title.toLowerCase().includes(query));
-  }, [tableRows, searchQuery]);
+  const visibleTableRows = useMemo(
+    () => filterBySearch(tableRows, searchQuery),
+    [tableRows, searchQuery],
+  );
+
+  const filterHint = useMemo(
+    () => buildFilterHint(posts, poststats, filters, searchQuery, tableRows, visibleTableRows),
+    [posts, poststats, filters, searchQuery, tableRows, visibleTableRows],
+  );
+
+  const displayCount = visibleTableRows.length;
+
+  const viewRows = useMemo(
+    () => (searchQuery.trim() ? visibleTableRows : tableRows),
+    [searchQuery, visibleTableRows, tableRows],
+  );
+
+  const displayKpis = useMemo(
+    () => (searchQuery.trim() ? kpisFromSummaries(viewRows) : liveData.kpis),
+    [searchQuery, viewRows, liveData.kpis],
+  );
+
+  const displayBreakdown = useMemo(
+    () =>
+      searchQuery.trim()
+        ? breakdownFromSummaries(viewRows)
+        : { channelData: liveData.channelData, typeSplit: liveData.typeSplit },
+    [searchQuery, viewRows, liveData.channelData, liveData.typeSplit],
+  );
+
+  const highlightVideo = useMemo(() => {
+    if (searchQuery.trim()) return viewRows[0];
+    return liveData.q3[0] ?? tableRows[0];
+  }, [searchQuery, viewRows, liveData.q3, tableRows]);
+
+  const highlightViewsLabel = useMemo(() => {
+    if (searchQuery.trim()) return 'views in selected date range';
+    if (liveData.q3[0] && highlightVideo?.video_id === liveData.q3[0].video_id) {
+      return 'views in the last 28 days';
+    }
+    return 'views in selected date range';
+  }, [searchQuery, liveData.q3, highlightVideo]);
 
   const spotlightVideos = useMemo(() => {
-    const base = tableRows.slice(0, 6);
+    const source = searchQuery.trim() ? visibleTableRows : tableRows;
+    const base = source.slice(0, 6);
     if (!selectedVideo) return base;
 
     const alreadyListed = base.some((video) => video.video_id === selectedVideo.video_id);
     if (alreadyListed) return base;
 
     return [selectedVideo, ...base.slice(0, 5)];
-  }, [tableRows, selectedVideo]);
+  }, [tableRows, visibleTableRows, searchQuery, selectedVideo]);
 
   const selectVideo = useCallback((video: VideoSummary, scrollToPlayer = false) => {
     setSelectedVideo(video);
@@ -176,12 +239,46 @@ export default function App() {
 
     if (!selectedVideo) return;
 
-    const stillVisible = tableRows.some((video) => video.video_id === selectedVideo.video_id);
+    const pool = searchQuery.trim() ? visibleTableRows : tableRows;
+    const stillVisible = pool.some((video) => video.video_id === selectedVideo.video_id);
     if (!stillVisible) {
-      setSelectedVideo(tableRows[0]);
+      setSelectedVideo(pool[0] ?? tableRows[0] ?? null);
       setPlayToken((token) => token + 1);
     }
-  }, [tableRows, selectedVideo]);
+  }, [tableRows, visibleTableRows, searchQuery, selectedVideo]);
+
+  const editorInsights = useMemo(
+    () =>
+      buildEditorInsights(
+        filters,
+        displayKpis,
+        displayBreakdown.channelData,
+        displayBreakdown.typeSplit,
+        highlightVideo,
+        baseline,
+        searchQuery,
+        highlightViewsLabel,
+      ),
+    [filters, displayKpis, displayBreakdown, highlightVideo, baseline, searchQuery, highlightViewsLabel],
+  );
+
+  const assistantContext = useMemo<AssistantContext>(
+    () => ({
+      filters,
+      searchQuery,
+      filterHint: filterHint?.detail ?? null,
+      kpis: displayKpis,
+      channelData: displayBreakdown.channelData,
+      typeSplit: displayBreakdown.typeSplit,
+      top28: searchQuery.trim() ? viewRows.slice(0, 5) : liveData.q3,
+      summaries: viewRows,
+      accounts: getAccounts(posts),
+      datasetTotal: posts.length,
+      viewsTrend: liveData.q2,
+      baseline,
+    }),
+    [filters, searchQuery, filterHint, displayKpis, displayBreakdown, viewRows, liveData, posts, baseline],
+  );
 
   const activeMeta = QUERIES.find((q) => q.id === activeQuery)!;
 
@@ -214,7 +311,7 @@ export default function App() {
     <div className="app-shell">
       <Header
         dateRange={formatDateRange(filters.dateFrom, filters.dateTo)}
-        filteredCount={liveData.summaries.length}
+        filteredCount={displayCount}
         datasetTotal={posts.length}
       />
 
@@ -235,7 +332,11 @@ export default function App() {
           onReset={handleReset}
         />
 
-        <KpiStrip metrics={liveData.kpis} datasetVideoCount={posts.length} />
+        {filterHint && <FilterStatus hint={filterHint} />}
+
+        <InsightStrip insights={editorInsights} />
+
+        <KpiStrip metrics={displayKpis} />
 
         <VideoSpotlight
           selected={selectedVideo}
@@ -279,11 +380,15 @@ export default function App() {
           <VideoTable
             rows={visibleTableRows}
             datasetTotal={posts.length}
+            filterCount={tableRows.length}
+            emptyMessage={filterHint?.detail}
             selectedId={selectedVideo?.video_id}
             onSelect={(video) => selectVideo(video)}
             onPreview={(video) => selectVideo(video, true)}
           />
         </section>
+
+        <EditorAssistant context={assistantContext} />
       </div>
     </div>
   );

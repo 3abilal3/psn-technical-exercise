@@ -10,6 +10,8 @@ const PAGE_SIZE = 25;
 interface VideoTableProps {
   rows: VideoSummary[];
   datasetTotal: number;
+  filterCount?: number;
+  emptyMessage?: string;
   selectedId?: string | null;
   onSelect?: (video: VideoSummary) => void;
   onPreview?: (video: VideoSummary) => void;
@@ -44,6 +46,8 @@ function getPageItems(current: number, totalPages: number): (number | 'ellipsis'
 export function VideoTable({
   rows,
   datasetTotal,
+  filterCount,
+  emptyMessage,
   selectedId,
   onSelect,
   onPreview,
@@ -68,7 +72,11 @@ export function VideoTable({
   }, [rows, currentPage]);
 
   if (rows.length === 0) {
-    return <p className="empty-state">No videos match your filters.</p>;
+    return (
+      <div className="empty-state">
+        <p>{emptyMessage ?? 'No videos match your filters.'}</p>
+      </div>
+    );
   }
 
   const rangeStart = (currentPage - 1) * PAGE_SIZE + 1;
@@ -88,7 +96,9 @@ export function VideoTable({
         </p>
         {rows.length !== datasetTotal && (
           <p className="table-summary-note">
-            {datasetTotal.toLocaleString('en-GB')} videos in the full dataset
+            {filterCount !== undefined && filterCount !== rows.length
+              ? `${filterCount.toLocaleString('en-GB')} videos match filters · ${datasetTotal.toLocaleString('en-GB')} in full dataset`
+              : `${datasetTotal.toLocaleString('en-GB')} videos in the full dataset`}
           </p>
         )}
       </div>

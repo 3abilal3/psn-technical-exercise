@@ -1,5 +1,7 @@
 .mini-chart {
   min-height: 280px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .span-2 {
