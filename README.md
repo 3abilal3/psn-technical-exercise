@@ -1,7 +1,7 @@
 # PSN Content Performance
 
 **Candidate:** Ahmed Bilal  
-**Exercise:** Play Sports Network — Junior Full Stack Developer Technical Exercise
+**Exercise:** Play Sports Network, Junior Full Stack Developer Technical Exercise
 
 Dashboard for the official PSN YouTube dataset (`posts.csv` + `poststats.csv`, 2,326 videos, Jul 2025 – Jan 2026).
 
@@ -15,7 +15,7 @@ npm run dev
 
 Open the URL from the terminal (usually `http://localhost:5173`).
 
-Optional — sanity-check the CSVs:
+Optional: sanity-check the CSVs:
 
 ```bash
 node scripts/validate-data.mjs
@@ -74,7 +74,7 @@ See `AI_REFLECTION.md`.
 
 I added a few things while polishing the UI:
 
-- **Insight cards** — short takeaways that respect active filters (e.g. won't say "Shorts winning" when you've already filtered to Shorts only)  
-- **Editor assistant** at the bottom — summary, suggested actions, and simple Q&A over the filtered data. It's rule-based text, not a live LLM call; honest detail in `AI_REFLECTION.md`.
+- **Insight cards**: short takeaways that respect active filters (e.g. won't say "Shorts winning" when you've already filtered to Shorts only)  
+- **Editor assistant** at the bottom: summary, suggested actions, and simple Q&A over the filtered data. It's rule-based text, not a live LLM call; honest detail in `AI_REFLECTION.md`.
 
 If I had more time, I'd wire this to a live data source instead of static CSVs in `public/`.
